@@ -70,6 +70,9 @@ class Data extends AbstractHelper
     public function getMaxNumberInstalmentsForAmount($amount = 0): int
     {
         $max = floor($amount / $this->getMinInstallmentValue());
+        if ($max < 1) {
+            $max = 1;
+        }
         return ($this->getInterestRate()) ?
             min($max, $this->getMaxNumberInstalmentsWithInterest()) :
             min($max, $this->getMaxNumberInstalments());
