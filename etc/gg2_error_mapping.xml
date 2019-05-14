@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Payment:etc/error_mapping.xsd">
+    <message_list>
+        <message code="InstalmentsNotValid" translate="true">Installment Payment Is Invalid.</message>
+        <message code="CcNumberNotValid" translate="true">Credit Card Number Is Invalid.</message>
+        <message code="CcExpDateNotValid" translate="true">Credit Card Exp Date Is Invalid.</message>
+        <message code="CcTypeNotValid" translate="true">Credit Card Type Is Invalid.</message>
+        <message code="CcCodeNotValid" translate="true">Credit Card Code Is Invalid.</message>
+    </message_list>
+</mapping>

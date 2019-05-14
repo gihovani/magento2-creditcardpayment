@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <gg2_creditcardpayment>
+                <model>Gg2CreditCardPaymentFacade</model>
+                <title>GG2 Credit Card Payment</title>
+                <active>1</active>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+
+                <cctypes>AE,VI,MC,DN,ELO,AURA</cctypes>
+
+                <payment_action>authorize_capture</payment_action>
+                <debug>true</debug>
+
+                <paymentInfoKeys>cc_installments,cc_type,cc_owner,cc_number,cc_last_4,cc_exp_month,cc_exp_year,cc_cid</paymentInfoKeys>
+                <privateInfoKeys>cc_number,cc_cid</privateInfoKeys>
+
+                <interest_rate>1</interest_rate>
+                <max_number_instalments>6</max_number_instalments>
+                <max_number_instalments_with_interest>12</max_number_instalments_with_interest>
+                <min_installment_value>100.00</min_installment_value>
+            </gg2_creditcardpayment>
+        </payment>
+    </default>
+</config>

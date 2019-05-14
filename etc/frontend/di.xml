@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Payment\Model\CcGenericConfigProvider">
+        <arguments>
+            <argument name="methodCodes" xsi:type="array">
+                <item name="gg2_creditcardpayment" xsi:type="const">Gg2\CreditCardPayment\Gateway\Config\Config::CODE
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Gg2CreditCardPaymentConfigurableInfo">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="is_secure_mode" xsi:type="string">1</item>
+                <item name="methodCode" xsi:type="const">Gg2\CreditCardPayment\Gateway\Config\Config::CODE</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

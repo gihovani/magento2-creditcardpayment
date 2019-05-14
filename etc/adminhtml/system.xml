@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="gg2_creditcardpayment" translate="label" type="text" sortOrder="1" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
+                <label>Gg2 Credit Card Payment</label>
+
+                <field id="active" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>Active</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="debug" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>Debug</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Record all errors that occur when executing a transaction.</comment>
+                </field>
+
+                <field id="cctypes" translate="label" type="multiselect" sortOrder="210" showInDefault="1"
+                       showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Credit Card Types</label>
+                    <source_model>Gg2\CreditCardPayment\Model\Source\Cctype</source_model>
+                </field>
+
+                <field id="max_number_instalments" translate="label" type="text" sortOrder="230" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Max installments number</label>
+                    <comment>Establish the maximum number of instalments in which your customer can pay, as consented on your contract.</comment>
+                </field>
+
+                <field id="max_number_instalments_with_interest" translate="label" type="text" sortOrder="230"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Max installments number with interest</label>
+                    <comment>Establish the maximum number of instalments in which your customer can pay with interest, as consented on your contract.</comment>
+                </field>
+
+                <field id="min_installment_value" translate="label" type="text" sortOrder="240" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Min installment value</label>
+                    <comment>Set the minimum installment value to show to the options for your customer on the checkout page.</comment>
+                </field>
+
+                <field id="interest_rate" translate="label" type="text" sortOrder="250" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <label>Interest Rate</label>
+                    <comment>Set a monthly interest rate.</comment>
+                </field>
+
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Authorize.NET Payment Facade Virtual Type Configuration -->
+    <virtualType name="Gg2CreditCardPaymentFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Gg2\CreditCardPayment\Gateway\Config\Config::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form\Cc</argument>
+            <argument name="infoBlockType" xsi:type="string">Gg2CreditCardPaymentConfigurableInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">Gg2CreditCardPaymentValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">Gg2CreditCardPaymentCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorize.NET Value Handler Pool Configuration -->
+    <virtualType name="Gg2CreditCardPaymentValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">Gg2CreditCardPaymentConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorize.NET Value Handler Configuration -->
+    <virtualType name="Gg2CreditCardPaymentConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">Gg2CreditCardPaymentGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorize.NET Value Handler Configuration -->
+    <virtualType name="Gg2CreditCardPaymentGatewayConfig" type="Gg2\CreditCardPayment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Gg2\CreditCardPayment\Gateway\Config\Config::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorize.NET Command Pool Configuration -->
+    <virtualType name="Gg2CreditCardPaymentCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">Magento\Payment\Gateway\Command\NullCommand</item>
+                <item name="capture" xsi:type="string">Gg2CreditCardPaymentChargeCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorize.NET Charge Transaction Builder -->
+    <virtualType name="Gg2CreditCardPaymentChargeTransactionBuilder"
+                 type="Gg2\CreditCardPayment\Gateway\Request\RequestBuilder">
+        <arguments>
+            <argument name="builder" xsi:type="object">Gg2CreditCardPaymentChargeBuilderComposite</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorize.NET Charge Transaction Builder Composite -->
+    <virtualType name="Gg2CreditCardPaymentChargeBuilderComposite"
+                 type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="charge" xsi:type="string">Gg2\CreditCardPayment\Gateway\Request\Builder\Charge</item>
+                <item name="payment" xsi:type="string">Gg2\CreditCardPayment\Gateway\Request\Builder\Payment</item>
+                <item name="productItems" xsi:type="string">Gg2\CreditCardPayment\Gateway\Request\Builder\ProductItems
+                </item>
+                <item name="totals" xsi:type="string">Gg2\CreditCardPayment\Gateway\Request\Builder\Totals</item>
+                <item name="address" xsi:type="string">Gg2\CreditCardPayment\Gateway\Request\Builder\Address</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorize.NET Charge Command -->
+    <virtualType name="Gg2CreditCardPaymentChargeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Gg2CreditCardPaymentChargeTransactionBuilder</argument>
+            <argument name="transferFactory" xsi:type="object">Gg2\CreditCardPayment\Gateway\Http\TransferFactory
+            </argument>
+            <argument name="client" xsi:type="object">Gg2\CreditCardPayment\Gateway\Http\Client</argument>
+            <argument name="validator" xsi:type="object">Gg2\CreditCardPayment\Gateway\Validator\CreditCardValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Gg2\CreditCardPayment\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Amazon error code mapper -->
+    <virtualType name="Gg2\CreditCardPayment\Gateway\ErrorMapper\VirtualConfigReader" type="Magento\Payment\Gateway\ErrorMapper\VirtualConfigReader">
+        <arguments>
+            <argument name="fileName" xsi:type="string">gg2_error_mapping.xml</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Gg2\CreditCardPayment\Gateway\ErrorMapper\VirtualMappingData" type="Magento\Payment\Gateway\ErrorMapper\MappingData">
+        <arguments>
+            <argument name="reader" xsi:type="object">Gg2\CreditCardPayment\Gateway\ErrorMapper\VirtualConfigReader</argument>
+            <argument name="cacheId" xsi:type="string">gg2_error_mapping</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Gg2\CreditCardPayment\Gateway\ErrorMapper\VirtualErrorMessageMapper" type="Magento\Payment\Gateway\ErrorMapper\ErrorMessageMapper">
+        <arguments>
+            <argument name="messageMapping" xsi:type="object">Gg2\CreditCardPayment\Gateway\ErrorMapper\VirtualMappingData</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorize.NET Charge Client -->
+    <type name="Gg2\CreditCardPayment\Gateway\Http\Client">
+        <arguments>
+            <argument name="logger" xsi:type="object">Gg2CreditCardPaymentLogger</argument>
+            <argument name="converter" xsi:type="object">Gg2\CreditCardPayment\Gateway\Converter\JsonToArray</argument>
+        </arguments>
+    </type>
+
+    <!-- Authorize.NET Payment Method Logger -->
+    <virtualType name="Gg2CreditCardPaymentLogger" type="Magento\Payment\Model\Method\Logger">
+        <arguments>
+            <argument name="config" xsi:type="object">Gg2CreditCardPaymentGatewayConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorize.NET Payment Gateway Json to Array Converter -->
+    <type name="Gg2\CreditCardPayment\Gateway\Converter\JsonToArray">
+        <arguments>
+            <argument name="serializer" xsi:type="object">Magento\Framework\Serialize\Serializer\Json</argument>
+        </arguments>
+    </type>
+
+    <!-- Authorize.NET Payment Gateway Request Converter -->
+    <type name="Gg2\CreditCardPayment\Gateway\Converter\Converter">
+        <arguments>
+            <argument name="converter" xsi:type="object">Gg2\CreditCardPayment\Gateway\Converter\ArrayToJson</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Gg2CreditCardPaymentConfigurableInfo" type="Magento\Payment\Block\ConfigurableInfo">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="methodCode" xsi:type="const">Gg2\CreditCardPayment\Gateway\Config\Config::CODE</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Payment\Block\Info">
+        <plugin name="Gg2CreditCardPaymentAdditionalInfoLabels" type="Gg2\CreditCardPayment\Plugin\Payment\Block\InfoPlugin" />
+    </type>
+
+    <type name="Magento\Payment\Model\CcConfigProvider">
+        <plugin name="gg2_ccicons_plugin" type="Gg2\CreditCardPayment\Plugin\CcConfigProviderPlugin" sortOrder="1" />
+    </type>
+</config>
